@@ -19,7 +19,7 @@ import type { BamlRuntime, FunctionResult, BamlCtxManager, Image, Audio, ClientR
 import { toBamlError, type HTTPRequest } from "@boundaryml/baml"
 import type { Checked, Check, RecursivePartialNull as MovedRecursivePartialNull } from "./types"
 import type * as types from "./types"
-import type {} from "./types"
+import type {Metadata} from "./types"
 import type TypeBuilder from "./type_builder"
 import { HttpRequest, HttpStreamRequest } from "./sync_request"
 import { LlmResponseParser, LlmStreamParser } from "./parser"
@@ -86,7 +86,7 @@ export class BamlSyncClient {
 
   
   Chat(
-      message: string,
+      message: string,rerankedResults: Metadata[],
       __baml_options__?: BamlCallOptions
   ): string {
     try {
@@ -95,7 +95,7 @@ export class BamlSyncClient {
       const raw = this.runtime.callFunctionSync(
         "Chat",
         {
-          "message": message
+          "message": message,"rerankedResults": rerankedResults
         },
         this.ctxManager.cloneContext(),
         options.tb?.__tb(),

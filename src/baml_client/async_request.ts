@@ -19,7 +19,7 @@ import type { BamlRuntime, BamlCtxManager, ClientRegistry, Image, Audio } from "
 import { toBamlError, HTTPRequest } from "@boundaryml/baml"
 import type { Checked, Check } from "./types"
 import type * as types from "./types"
-import type {} from "./types"
+import type {Metadata} from "./types"
 import type TypeBuilder from "./type_builder"
 
 type BamlCallOptions = {
@@ -32,14 +32,14 @@ export class AsyncHttpRequest {
 
   
   async Chat(
-      message: string,
+      message: string,rerankedResults: Metadata[],
       __baml_options__?: BamlCallOptions
   ): Promise<HTTPRequest> {
     try {
       return await this.runtime.buildRequest(
         "Chat",
         {
-          "message": message
+          "message": message,"rerankedResults": rerankedResults
         },
         this.ctxManager.cloneContext(),
         __baml_options__?.tb?.__tb(),
@@ -58,14 +58,14 @@ export class AsyncHttpStreamRequest {
 
   
   async Chat(
-      message: string,
+      message: string,rerankedResults: Metadata[],
       __baml_options__?: BamlCallOptions
   ): Promise<HTTPRequest> {
     try {
       return await this.runtime.buildRequest(
         "Chat",
         {
-          "message": message
+          "message": message,"rerankedResults": rerankedResults
         },
         this.ctxManager.cloneContext(),
         __baml_options__?.tb?.__tb(),
