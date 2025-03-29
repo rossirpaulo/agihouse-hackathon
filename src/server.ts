@@ -2,12 +2,14 @@ import express, {
 	type Request,
 	type Response,
 	type RequestHandler,
+	type NextFunction,
 } from "express";
 import dotenv from "dotenv";
 import path from "node:path";
 import LLMService from "./services/llm-service";
 import TranscriptionService from "./services/transcription-service";
 import { searchAndRerank } from "./services/query";
+import { ElevenLabsService } from './services/eleven';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -73,6 +75,25 @@ app.post("/chat", async (req: Request, res: Response) => {
 		res.end();
 	}
 });
+
+// Text to speech endpoint
+app.post("/text-to-speech", (async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { text, voiceId } = req.body;
+    
+    if (!text) {
+      return res.status(400).json({ error: 'Text is required' });
+    }
+
+    const elevenLabsService = new ElevenLabsService();
+    const audioStream = await elevenLabsService.textToSpeech(text, voiceId);
+
+    res.setHeader('Content-Type', 'audio/mpeg');
+    audioStream.pipe(res);
+  } catch (error) {
+    next(error);
+  }
+}) as RequestHandler);
 
 // Search endpoint
 app.get("/search", (async (req: Request, res: Response) => {
