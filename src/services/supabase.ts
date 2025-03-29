@@ -46,7 +46,7 @@ export class SupabaseService {
   }
 
   // Function to chunk text into smaller pieces for embeddings
-  chunkText(text: string, maxChunkSize: number = 500): string[] {
+  chunkText(text: string, maxChunkSize: number = 2000): string[] {
     const sentences = text.split(/[.!?]+/);
     const chunks: string[] = [];
     let currentChunk = '';

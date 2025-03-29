@@ -8,4 +8,6 @@ bruno
 src/scripts/scrapeArticles.ts
 src/scripts/testScraper.ts
 
+
 src/services/test_query.ts
+src/services/scraper.ts
