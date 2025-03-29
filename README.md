@@ -45,13 +45,14 @@ This project implements a Retrieval-Augmented Generation (RAG) system:
 
 **Hypothesis & Potential Applications:**
 
-(This section remains largely the same as before, emphasizing RAG's contribution)
+Our hypothesis is that by simulating a leader's inferred private reasoning based on comprehensive data, AI can serve as a valuable tool for geopolitical analysis and prediction.
 
-Our hypothesis is that by simulating a leader's inferred private reasoning, augmented by relevant retrieved context using RAG, AI can serve as a valuable tool for geopolitical analysis and prediction.
-
-* **Enhanced Understanding:** This approach aims to provide deeper insights into the potential motivations and strategic calculus driving Russian actions...
-* **Predictive Analysis Support:** While not a replacement for traditional intelligence gathering, this simulation can potentially...
-* **Augmenting Intelligence:** This tool could augment existing intelligence analysis...
+* **Enhanced Understanding:** This approach aims to provide deeper insights into the potential motivations and strategic calculus driving Russian actions, distinguishing between public positioning and potential private intent.
+* **Predictive Analysis Support:** While not a replacement for traditional intelligence gathering, this simulation can potentially:
+   * Generate plausible scenarios based on the leader's modeled thinking.
+   * Help analysts test hypotheses about potential reactions to specific events.
+   * Identify potential areas of strategic interest or concern for the Russian Federation based on past patterns and inferred logic.
+* **Augmenting Intelligence:** This tool could augment existing intelligence analysis by providing a dynamic model to explore potential decision pathways, potentially offering early indicators or alternative perspectives on future Russian actions and interests. It allows for exploring "what-if" scenarios based on the simulated persona's logic.
 
 **Technology Stack:**
 
@@ -64,7 +65,7 @@ Our hypothesis is that by simulating a leader's inferred private reasoning, augm
 * **Audio Transcription (Optional):** OpenAI Whisper
 * **(Likely) Frontend:** HTML, CSS, JavaScript
 
-*Limitations & Considerations:*
+**Limitations & Considerations:**
 
 * Simulation, Not Reality: This is an AI interpretation based on available data, not a factual representation of Vladimir Putin's private thoughts.
 * Data Bias: The output is inherently influenced by the biases present in the training data and the selected sources.
