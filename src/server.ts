@@ -45,8 +45,32 @@ app.post("/transcribe", (async (req: Request, res: Response) => {
 
 app.post("/chat", async (req: Request, res: Response) => {
 	const message = req.body.message;
-	const response = await llmService.chat(message);
-	res.json({ message: response });
+
+	// Set headers for SSE
+	res.setHeader("Content-Type", "text/event-stream");
+	res.setHeader("Cache-Control", "no-cache");
+	res.setHeader("Connection", "keep-alive");
+
+	// Create a stream from the LLM service
+	const stream = await llmService.chatStream(message);
+
+	// Handle client disconnect
+	req.on("close", () => {
+		// Client disconnected, stream will naturally end
+	});
+
+	// Stream the response
+	try {
+		for await (const chunk of stream) {
+			res.write(`data: ${JSON.stringify({ message: chunk })}\n\n`);
+		}
+		res.write("data: [DONE]\n\n");
+		res.end();
+	} catch (error) {
+		console.error("Streaming error:", error);
+		res.write(`data: ${JSON.stringify({ error: "Streaming failed" })}\n\n`);
+		res.end();
+	}
 });
 
 // Start server
