@@ -14,13 +14,19 @@
   "license": "ISC",
   "dependencies": {
     "@boundaryml/baml": "^0.81.3",
+    "@supabase/supabase-js": "^2.49.4",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
-    "openai": "^4.90.0"
+    "openai": "^4.90.0",
+    "puppeteer": "^24.4.0",
+    "supabase": "^2.20.5",
+    "turndown": "^7.2.0",
+    "voyageai": "^0.0.4"
   },
   "devDependencies": {
     "@types/express": "^5.0.1",
     "@types/node": "^22.13.14",
+    "@types/turndown": "^5.0.5",
     "nodemon": "^3.1.9",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2"

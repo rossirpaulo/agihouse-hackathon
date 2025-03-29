@@ -4,3 +4,7 @@ dist
 bruno
 
 .env
+
+src/scripts
+
+src/services/test_query.ts
