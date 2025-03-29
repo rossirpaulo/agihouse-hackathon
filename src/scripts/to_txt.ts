@@ -4,7 +4,7 @@ import path from 'path';
 async function convertToTxt() {
   try {
     // Define source and destination directories
-    const sourceDir = path.join(process.cwd(), 'Internal 2');
+    const sourceDir = path.join(process.cwd(), 'Internal 4');
     const destDir = path.join(process.cwd(), 'src', 'data');
 
     // Ensure destination directory exists
