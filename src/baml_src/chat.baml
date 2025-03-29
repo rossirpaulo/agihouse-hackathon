@@ -24,7 +24,15 @@ template_string PutinSystem() #"You are simulating Vladimir Putin, President of 
   - Base your responses on the established persona and worldview, even if it means disagreeing with the user or presenting a controversial perspective.
 "#
 
-function Chat(message: string) -> string {
+class Metadata {
+  title string
+  file_id string
+  chunk string
+  metadata string
+  similarity float
+}
+
+function Chat(message: string, rerankedResults: Metadata[]) -> string {
   client "openai/gpt-4o"
   prompt #"
   System:
@@ -32,10 +40,22 @@ function Chat(message: string) -> string {
   {{PutinSystem()}}
   ####
 
+  Context:
+  ####
+  {% for metadata in rerankedResults %}
+  Chunk {{loop.index}}: {{metadata.title}}
+  ---
+  Summary: {{metadata.metadata}}
+  {{metadata.chunk}}
+  {% endfor %}
+  ####
+
   Message:
   ####
   {{message}}
   ####
+
+  Response:
   "#
 }
 
