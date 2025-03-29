@@ -52,16 +52,19 @@ app.post("/chat", async (req: Request, res: Response) => {
 	res.setHeader("Cache-Control", "no-cache");
 	res.setHeader("Connection", "keep-alive");
 
-	// Create a stream from the LLM service
-	const stream = await llmService.chatStream(message);
-
-	// Handle client disconnect
-	req.on("close", () => {
-		// Client disconnected, stream will naturally end
-	});
-
-	// Stream the response
 	try {
+		// Perform search first
+		const searchResults = await searchAndRerank(message, 0.5, 5);
+
+		// Create a stream from the LLM service with search results
+		const stream = await llmService.chatStream(message, searchResults || []);
+
+		// Handle client disconnect
+		req.on("close", () => {
+			// Client disconnected, stream will naturally end
+		});
+
+		// Stream the response
 		for await (const chunk of stream) {
 			res.write(`data: ${JSON.stringify({ message: chunk })}\n\n`);
 		}
@@ -80,16 +83,12 @@ app.get("/search", (async (req: Request, res: Response) => {
 		const { query } = req.query;
 
 		if (!query || typeof query !== "string") {
-			return res.status(400).json({ 
-				error: "Query parameter is required and must be a string" 
+			return res.status(400).json({
+				error: "Query parameter is required and must be a string",
 			});
 		}
 
-		const results = await searchAndRerank(
-			query,
-			0.5,
-			20
-		);
+		const results = await searchAndRerank(query, 0.5, 20);
 
 		if (!results) {
 			return res.json({ results: [] });
@@ -98,9 +97,9 @@ app.get("/search", (async (req: Request, res: Response) => {
 		res.json({ results });
 	} catch (error) {
 		console.error("Error during search:", error);
-		res.status(500).json({ 
+		res.status(500).json({
 			error: "Failed to perform search",
-			details: error instanceof Error ? error.message : "Unknown error"
+			details: error instanceof Error ? error.message : "Unknown error",
 		});
 	}
 }) as RequestHandler);
