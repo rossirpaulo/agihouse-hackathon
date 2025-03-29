@@ -7,6 +7,7 @@ import dotenv from "dotenv";
 import path from "node:path";
 import LLMService from "./services/llm-service";
 import TranscriptionService from "./services/transcription-service";
+import { searchAndRerank } from "./services/query";
 
 // Load environment variables from .env file
 dotenv.config();
@@ -72,6 +73,37 @@ app.post("/chat", async (req: Request, res: Response) => {
 		res.end();
 	}
 });
+
+// Search endpoint
+app.get("/search", (async (req: Request, res: Response) => {
+	try {
+		const { query } = req.query;
+
+		if (!query || typeof query !== "string") {
+			return res.status(400).json({ 
+				error: "Query parameter is required and must be a string" 
+			});
+		}
+
+		const results = await searchAndRerank(
+			query,
+			0.5,
+			20
+		);
+
+		if (!results) {
+			return res.json({ results: [] });
+		}
+
+		res.json({ results });
+	} catch (error) {
+		console.error("Error during search:", error);
+		res.status(500).json({ 
+			error: "Failed to perform search",
+			details: error instanceof Error ? error.message : "Unknown error"
+		});
+	}
+}) as RequestHandler);
 
 // Start server
 app.listen(port, () => {
